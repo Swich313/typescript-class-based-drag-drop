@@ -1,4 +1,4 @@
-import { Project, ProjectStatus } from "../models/project.js";
+import { Project, ProjectStatus } from "../models/project";
 class State {
     constructor() {
         this.listeners = [];
@@ -44,3 +44,4 @@ function uuidv4() {
         return v.toString(16);
     });
 }
+//# sourceMappingURL=project-state.js.map

@@ -10,3 +10,4 @@ export function Autobind(_target, _methodName, descriptor) {
     };
     return adjustedDescriptor;
 }
+//# sourceMappingURL=auto-bind.js.map

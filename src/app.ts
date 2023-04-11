@@ -1,8 +1,6 @@
-import {ProjectInput} from "./components/project-input.js";
-import {ProjectList} from "./components/project-list.js";
+import {ProjectInput} from "./components/project-input";
+import {ProjectList} from "./components/project-list";
 
-namespace App {
     const projectFrom = new ProjectInput();
     const activeProjectList = new ProjectList('active');
     const finishedProjectList = new ProjectList('finished');
-}

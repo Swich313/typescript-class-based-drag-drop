@@ -13,3 +13,4 @@ export class Project {
         this.status = status;
     }
 }
+//# sourceMappingURL=project.js.map
