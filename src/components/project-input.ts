@@ -1,10 +1,10 @@
-/// <reference path="base-component.ts" />
-/// <reference path="../decorators/auto-bind.ts" />
-/// <reference path="../util/validation.ts" />
-/// <reference path="../state/project-state.ts" />
+import {Component} from "./base-component.js";
+// import {validate, Validatable} from "../util/validation.js";
+import * as Validation from "../util/validation.js"                 //using grouping and alias import
+import {Autobind} from "../decorators/auto-bind.js";
+import {projectState} from "../state/project-state.js";
 
-namespace App {
-    export class ProjectInput extends Component<HTMLDivElement, HTMLFormElement>{
+export class ProjectInput extends Component<HTMLDivElement, HTMLFormElement>{
         titleInputElement: HTMLInputElement;
         descriptionInputElement: HTMLInputElement;
         peopleInputElement: HTMLInputElement;
@@ -31,18 +31,18 @@ namespace App {
             const enteredDescription = this.descriptionInputElement.value;
             const enteredPeople = this.peopleInputElement.value;
 
-            const titleValidatable: Validatable = {
+            const titleValidatable: Validation.Validatable = {                  //using grouping and alias import
                 value: enteredTitle,
                 required: true,
                 minLength: 5
             }
-            const descriptionValidatable: Validatable = {
+            const descriptionValidatable: Validation.Validatable = {
                 value: enteredDescription,
                 required: true,
                 minLength: 5
 
             }
-            const peopleValidatable: Validatable = {
+            const peopleValidatable: Validation.Validatable = {
                 value: +enteredPeople,
                 required: true,
                 min: 1,
@@ -50,9 +50,9 @@ namespace App {
             }
 
             if(
-                !validate(titleValidatable) ||
-                !validate(descriptionValidatable) ||
-                !validate(peopleValidatable)
+                !Validation.validate(titleValidatable) ||                       //using grouping and alias import
+                !Validation.validate(descriptionValidatable) ||                 //using grouping and alias import
+                !Validation.validate(peopleValidatable)                         //using grouping and alias import
             ) {
                 alert('Invalid input, please try again!');
                 return;
@@ -79,4 +79,3 @@ namespace App {
             }
         }
     }
-}

@@ -1,5 +1,6 @@
-namespace App {
-    //Project State Management
+import {Project, ProjectStatus} from "../models/project.js";
+
+//Project State Management
     type Listener<T> = (items: T[]) => void;
 
      class State<T> {
@@ -57,5 +58,5 @@ namespace App {
             return v. toString(16);
         });
     }
-}
+
 
