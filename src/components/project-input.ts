@@ -1,10 +1,16 @@
+import {validate} from 'class-validator';
+
 import {Component} from "./base-component";
 // import {validate, Validatable} from "../util/validation.js";
 import * as Validation from "../util/validation"                 //using grouping and alias import
 import {Autobind} from "../decorators/auto-bind";
 import {projectState} from "../state/project-state";
+import {InputDto} from '../models/inputDto';
+import {InputData} from '../models/inputData';
 
 export class ProjectInput extends Component<HTMLDivElement, HTMLFormElement>{
+
+
         titleInputElement: HTMLInputElement;
         descriptionInputElement: HTMLInputElement;
         peopleInputElement: HTMLInputElement;
@@ -61,6 +67,29 @@ export class ProjectInput extends Component<HTMLDivElement, HTMLFormElement>{
             }
         }
 
+
+        //for class-validator validation
+        private collectUserInputAndValidateWithClassValidator(): Promise<void | [string, string, number]> {
+            const title = this.titleInputElement.value;
+            const description = this.descriptionInputElement.value;
+            const people = this.peopleInputElement.value;
+
+            const inputDto = new InputDto(title, description, +people);
+
+            return validate(inputDto).then(errors => {
+                if(errors.length > 0){
+                    const errorArray = errors.map(error => {
+                        return `Invalid field: ${error.property} - ${Object.values(error.constraints!)}`
+                    });
+                    alert(errorArray.join('\n'));
+                    return
+                } else {
+                    return inputDto.returnInputDtoAsArray();
+                }
+
+            });
+        }
+
         private clearInputs(){
             this.titleInputElement.value = '';
             this.descriptionInputElement.value = '';
@@ -68,13 +97,13 @@ export class ProjectInput extends Component<HTMLDivElement, HTMLFormElement>{
         }
 
         @Autobind
-        private submitHandler(event: Event) {
+        private async submitHandler(event: Event) {
             event.preventDefault();
-            const userInput = this.collectUserInput();
+            // const userInput = this.collectUserInput();
+            const userInput = await this.collectUserInputAndValidateWithClassValidator()
             if(Array.isArray(userInput)){
                 const [title, description, people] = userInput;
                 projectState.addProject(title, description, people);
-                console.log({title, description, people});
                 this.clearInputs();
             }
         }
